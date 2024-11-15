@@ -4,13 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +26,9 @@ import androidx.fragment.app.Fragment;
  * create an instance of this fragment.
  */
 public class SignupFragment extends Fragment {
+    private EditText etUsername,etPassword;
+    private Button btnSignup;
+    private FirebaseServices fbs;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,5 +75,42 @@ public class SignupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_signup_fragment, container, false);
+    }
+    public void onStart(){
+        super.onStart();
+        //connecting components
+        fbs=FirebaseServices.getInstance();
+        etUsername=getView().findViewById(R.id.etEmailSignup);
+        etPassword=getView().findViewById(R.id.etPasswordSignup);
+        btnSignup=getView().findViewById(R.id.btnSignupSignup);
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //data
+                String Username = etUsername.getText().toString();
+                String Password = etPassword.getText().toString();
+                if (Username.trim().isEmpty() && Password.trim().isEmpty()) {
+                    Toast.makeText(getActivity(), "some fields are empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //signup
+                fbs.getAuth().createUserWithEmailAndPassword(Username, Password).addOnSuccessListener(
+                        new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                Toast.makeText(getActivity(),"success!",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                ).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        });
+
+
     }
 }

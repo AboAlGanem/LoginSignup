@@ -28,6 +28,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+            android:minHeight="48dp"
             app:layout_constraintStart_toStartOf="@+id/etEmailSignup"
             app:layout_constraintTop_toBottomOf="@+id/etEmailSignup" />
 
@@ -39,7 +40,9 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

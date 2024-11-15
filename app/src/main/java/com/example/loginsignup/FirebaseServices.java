@@ -30,7 +30,7 @@ public class  FirebaseServices {
         return storage;
     }
 
-    public FirebaseServices getInstance() {
+    public static FirebaseServices getInstance() {
         if(instance==null){
             instance= new FirebaseServices();
         }
